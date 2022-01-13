@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_order_app_form_inherit">
+        <field name="name">view.order.app.form.inherit</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="model">sale.order</field>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <script>
+                  document.querySelector('b2w-catalogs-element')?.addEventListener('currentCatalog', (e) => {
+                       console.log('catalog => ', e);
+                            document.getElementById('description_btw').textContent = e.detail.dispname;
+                     },
+                     false,
+                    );
+                </script>
+            </xpath>
+            <xpath expr="//page[@name='order_lines']" position="before">
+                <page name="bit2win" string="Bit2win">
+<!--                    <field name="check_cache"/>-->
+                    <token-element></token-element>
+                    <b2w-base-element></b2w-base-element>
+                    <b2w-catalogs-element></b2w-catalogs-element>
+                    <h2 id="description_btw"></h2>
+<!--                    <iframe marginheight="0" marginwidth="0" frameborder = "0" src="http://www.openerp.com" width="100%" height="1000"/>-->
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+
+</odoo>
