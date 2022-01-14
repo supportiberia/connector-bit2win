@@ -7,4 +7,3 @@ import base64
 
 class Sale(models.Model):
     _inherit = 'sale.order'
-

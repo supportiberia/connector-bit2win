@@ -1,12 +1,10 @@
 import requests
 import json
-# from localStoragePy import localStoragePy
-
 from odoo import models
 from odoo import http, _, exceptions
 from odoo.http import request
-import logging
-_logger = logging.getLogger(__name__)
+# import logging
+# _logger = logging.getLogger(__name__)
 
 # values request
 client_id = 'client-internal-test-03'
@@ -22,10 +20,9 @@ class User(http.Controller):
     # /api/user/register
     @http.route('/api/user/register', auth="public", csrf=False, type='http', cors="*")
     def push_register(self, **kw):
-        result = ''
         try:
             data_register = {
-                'client_id': client_id,             
+                'client_id': client_id,
                 'client_secret': client_secret,
                 'grant_type': grant_type,
                 'password': password,
@@ -34,14 +31,11 @@ class User(http.Controller):
             }
             content = requests.post(url_web, data=data_register)
             if content:
-                token_result = content.text
-                # local_storage = localStoragePy('bit2win', 'sqlite')
-                # local_storage.setItem('b2w-access-token', token_result)
-                # result = local_storage.getItem('b2w-access-token')
+                token_result = json.loads(content.text)['access_token']
         except Exception as e:
-            return str({'status': 404, 'message': 'Register Error'})
-        return str({'status': 200, 'result': result, 'message': 'Registration token saved successfully'})
+            return json.dumps({'status': 404, 'message': 'Register Error'}, sort_keys=False)
+        return json.dumps({'status': 200, 'result': token_result, 'message': 'Request token successfully'}, sort_keys=False)
 
     @http.route('/say_hello', auth="public", csrf=False, type='http', cors="*")
     def hello(self):
-        return str({'status': 200, 'message': 'Hello API APP'})
+        return json.dumps({'status': 200, 'message': 'Hello API Bit2win'}, sort_keys=False)
