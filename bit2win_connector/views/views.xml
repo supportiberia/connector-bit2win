@@ -8,7 +8,8 @@
             <xpath expr="//form" position="inside">
                 <script>
                     var request = new XMLHttpRequest();
-                    request.open("GET", "http://localhost:8069/api/user/register");
+<!--                    request.open("GET", "http://localhost:8069/api/user/register");-->
+                    request.open("GET", "https://bit2win-connector.odoo.com/api/user/register");
                     request.send();
                     request.onload = () => {
                         if (request.status === 200){
